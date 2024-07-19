@@ -1,4 +1,10 @@
-# SlimFlow: Training Smaller One-Step Diffusion Models with Rectified Flow
+# SlimFlow
+
+This is the official implementation of ECCV2024 paper
+## [SlimFlow: Training Smaller One-Step Diffusion Models with Rectified Flow](https://arxiv.org/abs/2407.12718) 
+by [Yuanzhi Zhu](https://yuanzhi-zhu.github.io/about/), [Xingcaho Liu](https://gnobitab.github.io/), [Qiang Liu](https://www.cs.utexas.edu/~lqiang/)
+
+This code is based on [RectifiedFlow](https://github.com/gnobitab/RectifiedFlow).
 
 ## usage
 
@@ -106,3 +112,15 @@ python ./train.py \
     --config.model.ch_mult '(1, 2, 2)' \
 ```
 
+
+## Citation
+If you find this repo helpful, please cite:
+
+```bibtex
+@article{zhu2024slimflow,
+  title={SlimFlow: Training Smaller One-Step Diffusion Models with Rectified Flow},
+  author={Zhu, Yuanzhi and Liu, Xingchao and Liu, Qiang},
+  journal={arXiv preprint arXiv:2407.12718},
+  year={2024}
+}
+```
