@@ -112,6 +112,8 @@ python ./train.py \
     --config.model.ch_mult '(1, 2, 2)' \
 ```
 
+## Checkpoints
+checkpoints can be found here on HuggingFace: https://huggingface.co/Yuanzhi/SlimFlow
 
 ## Citation
 If you find this repo helpful, please cite:
