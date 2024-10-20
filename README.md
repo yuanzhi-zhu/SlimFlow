@@ -48,6 +48,10 @@ python ./image_sampling.py \
     --config.eval.batch_size 64
 ```
 
+##### Image Sampling Configurations
+- Sample from 1flows: `--config.sampling.use_ode_sampler rk45`
+- Sample from 2flows: [`--config.sampling.use_ode_sampler rk45`, `--config.sampling.use_ode_sampler heun` + `--config.sampling.sample_N 3`, `--config.sampling.use_ode_sampler euler` + `--config.sampling.sample_N 1`]
+- Sample from distilled one-step models: `--config.sampling.use_ode_sampler euler` + `--config.sampling.sample_N 1`
 
 ### Generate Data Pair
 
