@@ -53,6 +53,18 @@ python ./image_sampling.py \
 - Sample from 2flows: [`--config.sampling.use_ode_sampler rk45`, `--config.sampling.use_ode_sampler heun` + `--config.sampling.sample_N 3`, `--config.sampling.use_ode_sampler euler` + `--config.sampling.sample_N 1`]
 - Sample from distilled one-step models: `--config.sampling.use_ode_sampler euler` + `--config.sampling.sample_N 1`
 
+##### Model Configurations
+- ImageNet64 80.7M: `--config.model.name DhariwalUNet --config.model.nf 128 --config.model.num_res_blocks 2 --config.model.ch_mult '(1, 2, 2, 4)' --config.data.num_classes 1000 --config.data.image_size 64 --config.model.attn_resolutions '32, 16'`
+- ImageNet 44.7MM: `--config.model.name DhariwalUNet --config.model.nf 128 --config.model.num_res_blocks 2 --config.model.ch_mult '(1, 2, 2, 2)' --config.data.num_classes 1000 --config.data.image_size 64 --config.model.attn_resolutions '32, 16'`
+- FFHQ64 27.9M: `--config.model.nf 128 --config.model.num_res_blocks 2 --config.data.image_size 64 --config.model.ch_mult '(1, 2, 2)'`
+- FFHQ64 15.7M: `--config.model.nf 96 --config.model.num_res_blocks 2 --config.data.image_size 64 --config.model.ch_mult '(1, 2, 2)'`
+- FFHQ64 7.0M: `--config.model.nf 64 --config.model.num_res_blocks 2 --config.data.image_size 64 --config.model.ch_mult '(1, 2, 2)'`
+- FFHQ64 3.4M: `--config.model.nf 64 --config.model.num_res_blocks 1 --config.data.image_size 64 --config.model.ch_mult '(1, 1, 2)'`
+- CIFAR32 27.9M: `--config.model.nf 128 --config.model.num_res_blocks 2 --config.data.image_size 32 --config.model.ch_mult '(1, 2, 2)'`
+- CIFAR32 15.7M: `--config.model.nf 96 --config.model.num_res_blocks 2 --config.data.image_size 32 --config.model.ch_mult '(1, 2, 2)'`
+- CIFAR32 7.0M: `--config.model.nf 64 --config.model.num_res_blocks 2 --config.data.image_size 32 --config.model.ch_mult '(1, 2, 2)'`
+- CIFAR32 3.4M: `--config.model.nf 64 --config.model.num_res_blocks 1 --config.data.image_size 32 --config.model.ch_mult '(1, 1, 2)'`
+
 ### Generate Data Pair
 
 #### z0-->z1 by default
@@ -118,6 +130,7 @@ python ./train.py \
 
 ## Checkpoints
 checkpoints can be found here on HuggingFace: https://huggingface.co/Yuanzhi/SlimFlow
+To sample from these checkpoints, please follow the instructions in the README.md of the HuggingFace model.
 
 ## Citation
 If you find this repo helpful, please cite:

@@ -69,26 +69,35 @@ def main(argv):
     z = z0.detach().clone()
     z0_ = flow.get_z0(torch.zeros(sampling_shape_, device=device), train=False).to(device)
     z_ = z0_.detach().clone()
-    class_labels = None
+    class_labels = class_labels_ = None
     if config.data.num_classes:
         class_labels = torch.eye(config.data.num_classes, device=device)[torch.randint(0, config.data.num_classes, (config.eval.batch_size,))]
         class_idx = config.sampling.class_label
         if class_idx is not None and class_idx >= 0:
             class_labels[:, :] = 0
             class_labels[:, class_idx] = 1
+        class_labels_ = torch.eye(config.data.num_classes, device=device)[torch.randint(0, config.data.num_classes, (1,))]
 
     workdir = FLAGS.sampling_dir
-    checkpoint_dir = os.path.join(workdir, "checkpoints")
-    ckpt_list = os.listdir(checkpoint_dir)
-    ckpt_list = [ckpt for ckpt in ckpt_list if ckpt.endswith(".pth")]
-    ckpt_list = sorted(ckpt_list, key=lambda x: int(re.findall(r'\d+', x)[0])) # sort by number
-    
-    begin_ckpt = config.eval.begin_ckpt
-    # number of checkpoints in checkpoint_dir
-    num_ckpts = len([name for name in os.listdir(checkpoint_dir) \
-                     if (os.path.isfile(os.path.join(checkpoint_dir, name)) and 'checkpoint' in name)])
-    end_ckpt = config.eval.end_ckpt if config.eval.end_ckpt > 0 else num_ckpts
-    print("sample from: ", ckpt_list, 'begin_ckpt:', begin_ckpt, 'end_ckpt:', end_ckpt)
+    if workdir.endswith('.pth'):
+        # ckpt_list = [workdir]
+        checkpoint_dir = os.path.dirname(workdir)
+        ckpt_list = [os.path.basename(workdir)]
+        begin_ckpt = 1
+        end_ckpt = 2
+        workdir = os.path.dirname(workdir)
+    else:
+        checkpoint_dir = os.path.join(workdir, "checkpoints")
+        ckpt_list = os.listdir(checkpoint_dir)
+        ckpt_list = [ckpt for ckpt in ckpt_list if ckpt.endswith(".pth")]
+        ckpt_list = sorted(ckpt_list, key=lambda x: int(re.findall(r'\d+', x)[0])) # sort by number
+        
+        begin_ckpt = config.eval.begin_ckpt
+        # number of checkpoints in checkpoint_dir
+        num_ckpts = len([name for name in os.listdir(checkpoint_dir) \
+                        if (os.path.isfile(os.path.join(checkpoint_dir, name)) and 'checkpoint' in name)])
+        end_ckpt = config.eval.end_ckpt if config.eval.end_ckpt > 0 else num_ckpts
+        print("sample from: ", ckpt_list, 'begin_ckpt:', begin_ckpt, 'end_ckpt:', end_ckpt)
 
     for ckpt in ckpt_list[begin_ckpt-1:end_ckpt]:
         # reset random seed for each checkpoint
@@ -150,7 +159,7 @@ def main(argv):
             sampling_fn = sampling.get_flow_sampler(flow, sampling_shape_, inverse_scaler, device=device)
 
             with torch.no_grad():
-                x, nfe, (x_h, t_h) = sampling_fn(score_model, z=z_, return_xh=True)
+                x, nfe, (x_h, t_h) = sampling_fn(score_model, z=z_, return_xh=True, label=class_labels_)
             
             # Randomly sample n pixel positions
             h_indices = torch.randint(0, x.shape[2], (num_pixel,))
