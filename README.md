@@ -136,10 +136,12 @@ To sample from these checkpoints, please follow the instructions in the README.m
 If you find this repo helpful, please cite:
 
 ```bibtex
-@article{zhu2024slimflow,
+@inproceedings{zhu2025slimflow,
   title={SlimFlow: Training Smaller One-Step Diffusion Models with Rectified Flow},
   author={Zhu, Yuanzhi and Liu, Xingchao and Liu, Qiang},
-  journal={arXiv preprint arXiv:2407.12718},
-  year={2024}
+  booktitle={European Conference on Computer Vision},
+  pages={342--359},
+  year={2025},
+  organization={Springer}
 }
 ```
